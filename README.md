@@ -4,7 +4,7 @@ Java Agent memory horse scanner combined with Call Graph modus
 
 ![Platforms](https://img.shields.io/badge/Platforms-JavaAgent-brightgreen.svg)
 ![Java version](https://img.shields.io/badge/Java-8-green.svg)
-![License](https://img.shields.io/badge/License-apache%202-green.svg)
+![License](https://img.shields.io/badge/License-Mozilla-green.svg)
 
 
 ### How to used
