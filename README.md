@@ -15,7 +15,7 @@ java -javaagent:./MemoryShellHunter.jar -jar SpringBootRunner.jar
 
 1.0 Version:
 
-- WebSocket Memory Shell
+- Add WebSocket Memory Shell Check Algorithm
 
 
 
