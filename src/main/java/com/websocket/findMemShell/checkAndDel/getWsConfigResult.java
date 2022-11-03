@@ -1,4 +1,4 @@
-package com.websocket.findMemShell;
+package com.websocket.findMemShell.checkAndDel;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.websocket.findMemShell.App;
+import com.websocket.findMemShell.ConfigPath;
 
 public class getWsConfigResult {
 	
@@ -53,7 +56,6 @@ public class getWsConfigResult {
 		    
 		    // 遍历configExactMatchMap, 打印所有注册的 websocket 服务
 		    Set<String> keyset = configExactMatchMap.keySet();
-		    StringBuilder sb = new StringBuilder();
 		    for (String key : keyset) {
 		    	System.out.println("configExactMatchMap key:" + key);
 		    	Object object = servletContext.getClass().getClassLoader().loadClass("org.apache.tomcat.websocket.server.WsServerContainer").getDeclaredMethod("findMapping", String.class).invoke(wsServerContainer, key);
