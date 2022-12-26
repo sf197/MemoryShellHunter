@@ -11,13 +11,15 @@ import com.websocket.findMemShell.checkAndDel.getWsConfigResult;
 
 public class SearchCallsThread extends Thread{
 	Map<String,List<String>> discoveredCalls;
+	List<String> Grpc_Methods_list = null;
 	String sinkMethod = "java/lang/Runtime#exec";
 	Stack stack = new Stack();
 	int count = 0;
 	List<String> visitedClass = new ArrayList<>();
 	
-	public SearchCallsThread(Map<String,List<String>> discoveredCalls) {
+	public SearchCallsThread(Map<String,List<String>> discoveredCalls,List<String> Grpc_Methods_list) {
 		this.discoveredCalls = discoveredCalls;
+		this.Grpc_Methods_list = Grpc_Methods_list;
 	}
 	
 	public void checkWsConfig(ConfigPath cp) {
@@ -77,11 +79,22 @@ public class SearchCallsThread extends Thread{
 		}
 	}
 	
+	public void addGrpcListToConfigPath(List<ConfigPath> result) {
+		for(String cls : this.Grpc_Methods_list) {
+			ConfigPath cp = new ConfigPath("/Grpc",cls);
+			result.add(cp);
+		}
+	}
+	
 	@Override
     public void run() {
 		while(true) {
-			List<ConfigPath> result = getWsConfigResult.getWsConfig();
+			List<ConfigPath> result = new ArrayList<>();
+			getWsConfigResult.getWsConfig(result);
 			getControllerResult.getControllerMemShell(result);
+			if(this.Grpc_Methods_list != null) {
+				addGrpcListToConfigPath(result);
+			}
 			if(result != null && result.size() != 0) {
 				for(ConfigPath cp : result) {
 					if(!cp.getClassName().contains("#")) {

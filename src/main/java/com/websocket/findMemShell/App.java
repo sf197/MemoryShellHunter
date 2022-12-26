@@ -15,6 +15,7 @@ import java.lang.instrument.IllegalClassFormatException;
 import java.lang.instrument.Instrumentation;
 import java.lang.instrument.UnmodifiableClassException;
 import java.security.ProtectionDomain;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ public class App {
 	public static final String Change_Class = "org/apache/catalina/core/ApplicationContext";
 	public static final String Change_Class_Method = "<init>";
 	public static final String Change_Class_Method_Desc = "(Lorg/apache/catalina/core/StandardContext;)V";
+	public static List<String> Grpc_Methods_list = new ArrayList<>();
 	public static int count = 0;
 	public static Object servletContext = null;
 	
@@ -60,7 +62,7 @@ public class App {
             }
         }
         
-        SearchCallsThread thread = new SearchCallsThread(discoveredCalls);
+        SearchCallsThread thread = new SearchCallsThread(discoveredCalls,Grpc_Methods_list);
         thread.start();
         System.out.println("Done!");
     }
@@ -83,6 +85,11 @@ public class App {
 	            //System.out.println("Dumping end ...");
 	            
 	            return writer.toByteArray();
+    		}else{
+    			ClassReader reader = new ClassReader(bytes);
+	            ClassWriter writer = new ClassWriter(reader, 0);
+	            GrpcClassVisitor visitor = new GrpcClassVisitor(writer,Grpc_Methods_list);
+	            reader.accept(visitor, 0);
     		}
     		
     		ClassReader reader = new ClassReader(bytes);

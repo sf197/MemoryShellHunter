@@ -38,13 +38,12 @@ public class getWsConfigResult {
 		}
 	}
 	
-	public static List<ConfigPath> getWsConfig() {
+	public static void getWsConfig(List<ConfigPath> classList) {
 		try {
 			Object servletContext = App.servletContext;
 			if(servletContext == null) {
-				return null;
+				return;
 			}
-			List<ConfigPath> classList = new ArrayList<>();
 			//System.out.println("servletContext ClassLoader: "+servletContext.getClass().getClassLoader());
 			Method getAttribute = servletContext.getClass().getClassLoader().loadClass("org.apache.catalina.core.ApplicationContextFacade").getDeclaredMethod("getAttribute", String.class);
 			Object wsServerContainer = getAttribute.invoke(servletContext, "javax.websocket.server.ServerContainer");
@@ -68,10 +67,8 @@ public class getWsConfigResult {
 		        ConfigPath cp = new ConfigPath(key,clazz.getName());
 		        classList.add(cp);
 		    }
-		    return classList;
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null;
 	}
 }

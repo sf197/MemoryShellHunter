@@ -31,6 +31,10 @@ vmObj.loadAgent(agentJarPath, cfg);  // agentJarPath为MemoryShellHunter jar包�
 
 ### Supported middleware
 
+1.2 Version:
+
+- Add gRPC memory shell check algorithm
+
 1.1 Version:
 
 - Add Controller memory shell check algorithm
@@ -51,3 +55,9 @@ vmObj.loadAgent(agentJarPath, cfg);  // agentJarPath为MemoryShellHunter jar包�
 
 ##### Controller Memory Shell Test Report
 ![controller](./images/controller.png)
+
+
+
+##### gRPC Memory Shell Test Report
+
+![controller](./images/grpc.png)
